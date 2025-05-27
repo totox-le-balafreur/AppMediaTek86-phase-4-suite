@@ -59,6 +59,7 @@
             this.btnModifier.TabIndex = 5;
             this.btnModifier.Text = "Modifier";
             this.btnModifier.UseVisualStyleBackColor = true;
+            this.btnModifier.Click += new System.EventHandler(this.btnModifier_Click);
             // 
             // grpBoxModMbre
             // 
@@ -126,6 +127,7 @@
             this.checkBoxConfMod.TabIndex = 7;
             this.checkBoxConfMod.Text = "Confirmer modification";
             this.checkBoxConfMod.UseVisualStyleBackColor = true;
+            this.checkBoxConfMod.CheckedChanged += new System.EventHandler(this.checkBoxConfMod_CheckedChanged);
             // 
             // btnEnregMod
             // 
@@ -136,6 +138,7 @@
             this.btnEnregMod.TabIndex = 8;
             this.btnEnregMod.Text = "Enregistrer";
             this.btnEnregMod.UseVisualStyleBackColor = true;
+            this.btnEnregMod.Click += new System.EventHandler(this.btnEnregMod_Click);
             // 
             // btnRetour
             // 
@@ -145,8 +148,9 @@
             this.btnRetour.TabIndex = 9;
             this.btnRetour.Text = "retour";
             this.btnRetour.UseVisualStyleBackColor = true;
+            this.btnRetour.Click += new System.EventHandler(this.btnRetour_Click);
             // 
-            // ModMbre
+            // FrmModMbre
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -157,7 +161,7 @@
             this.Controls.Add(this.grpBoxModMbre);
             this.Controls.Add(this.btnModifier);
             this.Controls.Add(this.cbBoxLstMbre);
-            this.Name = "ModMbre";
+            this.Name = "FrmModMbre";
             this.Text = "Modifier membre";
             this.grpBoxModMbre.ResumeLayout(false);
             this.grpBoxModMbre.PerformLayout();

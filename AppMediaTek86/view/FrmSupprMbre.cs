@@ -31,6 +31,9 @@ namespace AppMediaTek86.view
             Init();
             RemplirListeDuPersonnel();
         }
+        /// <summary>
+        /// initialise les composants
+        /// </summary>
         private void Init() 
         {
             controller = new FrmSupprMbreController();
@@ -92,6 +95,12 @@ namespace AppMediaTek86.view
             {
                 MessageBox.Show("Veuillez sélectionner un membre à supprimer.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void btnRetour_Click(object sender, EventArgs e)
+        {
+            // ferme la fenetre
+            this.Close();
         }
     }
 }
