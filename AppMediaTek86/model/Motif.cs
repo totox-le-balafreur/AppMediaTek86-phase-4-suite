@@ -8,18 +8,18 @@ namespace AppMediaTek86.model
 {
     public class Motif
     {
-        int idMotif { get; }
-        string libelle { get; set; }
-        ///<summary>
-        ///valorise les propriétés
-        ///</summary>
-        ///<param name="idMotif"></param>
-        ///<param name="libelle"></param>
+        public int IdMotif { get; set; }
+        public string Libelle { get; set; }
+
         public Motif(int idMotif, string libelle)
         {
-            this.idMotif = idMotif;
-            this.libelle = libelle;
+            IdMotif = idMotif;
+            Libelle = libelle;
         }
 
+        public override string ToString()
+        {
+            return Libelle;
+        }
     }
 }
