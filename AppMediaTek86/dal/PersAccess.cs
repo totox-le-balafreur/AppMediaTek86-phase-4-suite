@@ -167,6 +167,7 @@ namespace AppMediaTek86.dal
                 parameters.Add("@tel", personnel.Tel);
                 parameters.Add("@mail", personnel.Mail);
                 parameters.Add("@idservice", personnel.Service.Idservice);
+                parameters.Add("@idpersonnel",personnel.Idpersonnel);
                 try
                 {
                     access.Manager.ReqUpdate(req, parameters);
