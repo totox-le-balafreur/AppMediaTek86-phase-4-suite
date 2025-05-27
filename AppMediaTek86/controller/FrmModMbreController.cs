@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace AppMediaTek86.controller
 {
-    internal class FrmModMbreController
+    /// <summary>
+    /// controller de FrmModMbre
+    /// </summary>
+    public class FrmModMbreController
     {
         /// <summary>
         /// objet d'accès des opérations sur le personnel
