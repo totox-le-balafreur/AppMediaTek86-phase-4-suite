@@ -23,38 +23,7 @@ namespace AppMediaTek86.dal
         {
             access = Access.GetInstance();
         }
-        /// <summary>
-        /// Controle si l'utillisateur a le droit de se connecter (nom, prénom, pwd et profil "admin")
-        /// </summary>
-        /// <param name="responsable"></param>
-        /// <param name="login"></param>
-        /// <param name="mdp"></param>
-        /// <returns>vrai si l'utilisateur a le profil "admin"</returns>
-        public Boolean ControleAuthentification(Responsable responsable)
-        {
-            if (access.Manager != null)
-            {
-                string req = "select * from responsable";
-                req += "where login=@ton_login and  and pwd=SHA2(@pwd, 256);";
-                Dictionary<string, object> parameters = new Dictionary<string, object>();
-                parameters.Add("@ton_login", responsable.Login);
-                parameters.Add("@pwd", responsable.Mdp);
-                try
-                {
-                    List<Object[]> records = access.Manager.ReqSelect(req, parameters);
-                    if (records != null)
-                    {
-                        return (records.Count > 0);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    Environment.Exit(0);
-                }
-            }
-            return false;
-        }
+       
         ///<summary>
         ///recupere et retourne la liste des absences
         ///</summary>
@@ -64,32 +33,57 @@ namespace AppMediaTek86.dal
             List<Absence> lesAbsences = new List<Absence>();
             if (access.Manager != null)
             {
-                string req = "SELECT * FROM absence a ";
-                req += "JOIN motif m ON a.idmotif = m.idmotif ";
-                req += "JOIN personnel p ON a.idpersonnel = p.idpersonnel ";
-                req += "JOIN service s ON p.idservice = s.idservice ";
-                req += "ORDER BY a.datedebut DESC;";
+                Console.WriteLine("[DEBUG] Accès manager OK"); // Test
+                string req = @"SELECT a.idpersonnel, a.datedebut, a.datefin, a.idmotif, 
+                                m.idmotif, m.libelle, 
+                                p.idpersonnel, p.nom, p.prenom, p.tel, p.mail, p.idservice, 
+                                s.idservice, s.nom 
+                                FROM absence a
+                                JOIN motif m ON a.idmotif = m.idmotif
+                                JOIN personnel p ON a.idpersonnel = p.idpersonnel
+                                JOIN service s ON p.idservice = s.idservice
+                                ORDER BY a.datedebut DESC;";
                 try
                 {
                     List<Object[]> records = access.Manager.ReqSelect(req);
+                    Console.WriteLine("[DEBUG] Absences récupérées : " + records?.Count); // Test
                     if (records != null)
                     {
                         foreach (Object[] record in records)
                         {
-                            // Création des objets dépendants
-                            Service service = new Service((int)record[11], (string)record[12]);
-                            Personnel personnel = new Personnel((int)record[6], (string)record[7], (string)record[8], (string)record[9], (string)record[10], service);
-                            Motif motif = new Motif((int)record[4], (string)record[5]);
+                            Console.WriteLine("[DEBUG] Lecture absence : " + string.Join(" | ", record)); // Test
+                            // Récupération des valeurs avec gestion des valeurs NULL
+                            int idPersonnel = record[0] != DBNull.Value ? Convert.ToInt32(record[0]) : 0;
+                            DateTime dateDebut = record[1] != DBNull.Value ? Convert.ToDateTime(record[1]) : DateTime.MinValue;
+                            DateTime dateFin = record[2] != DBNull.Value ? Convert.ToDateTime(record[2]) : DateTime.MinValue;
+                            int idMotif = record[3] != DBNull.Value ? Convert.ToInt32(record[3]) : 0;
 
-                            // Création de l'absence
+                            int idMotifMotif = record[4] != DBNull.Value ? Convert.ToInt32(record[4]) : 0;
+                            string libelleMotif = record[5] != DBNull.Value ? record[5].ToString() : string.Empty;
+                            Motif motif = new Motif(idMotifMotif, libelleMotif);
+
+                            int idPerso = record[6] != DBNull.Value ? Convert.ToInt32(record[6]) : 0;
+                            string nom = record[7] != DBNull.Value ? record[7].ToString() : string.Empty;
+                            string prenom = record[8] != DBNull.Value ? record[8].ToString() : string.Empty;
+                            string tel = record[9] != DBNull.Value ? record[9].ToString() : string.Empty;
+                            string mail = record[10] != DBNull.Value ? record[10].ToString() : string.Empty;
+
+                            int idService = record[12] != DBNull.Value ? Convert.ToInt32(record[12]) : 0;
+                            string nomService = record[13] != DBNull.Value ? record[13].ToString() : string.Empty;
+                            Service service = new Service(idService, nomService);
+
+                            Personnel personnel = new Personnel(idPerso, nom, prenom, tel, mail, service);
+                            // Test
+                            Console.WriteLine($"idPersonnel={idPersonnel}, idPerso={idPerso}, égalité: {idPersonnel == idPerso}");
                             Absence absence = new Absence(
-                                (int)record[0],           // idPersonnel
-                                (DateTime)record[1],      // dateDebut
-                                (DateTime)record[2],      // dateFin
-                                (int)record[3],           // idMotif
-                                motif,                    // objet Motif
-                                personnel                 // objet Personnel
+                                idPersonnel,
+                                dateDebut,
+                                dateFin,
+                                idMotif,
+                                motif,
+                                personnel
                             );
+
                             lesAbsences.Add(absence);
                         }
                     }
@@ -110,9 +104,10 @@ namespace AppMediaTek86.dal
         {
             if (access.Manager != null)
             {
-                string req = "delete from absence where datedebut = @datedebut;";
+                string req = "DELETE FROM absence WHERE idpersonnel = @idpersonnel AND datedebut = @datedebut;";
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
                 parameters.Add("@datedebut", absence.DateDebut);
+                parameters.Add("@idpersonnel", absence.IdPersonnel);
                 try
                 {
                     access.Manager.ReqUpdate(req, parameters);
@@ -132,13 +127,13 @@ namespace AppMediaTek86.dal
         {
             if (access.Manager != null)
             {
-                string req = "insert into absencel(idpersonnel, datedebut, datefin, idmotife) ";
+                string req = "insert into absence(idpersonnel, datedebut, datefin, idmotif) ";
                 req += "values (@idpersonnel, @datedebut, @datefin, @idmotif);";
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
                 parameters.Add("@idpersonnel", absence.IdPersonnel);
                 parameters.Add("@datedebut", absence.DateDebut);
                 parameters.Add("@datefin", absence.DateFin);
-                parameters.Add("@mail", absence.IdMotif);
+                parameters.Add("@idmotif", absence.IdMotif);
                 try
                 {
                     access.Manager.ReqUpdate(req, parameters);
@@ -158,13 +153,14 @@ namespace AppMediaTek86.dal
         {
             if (access.Manager != null)
             {
-                string req = "update absence set idpersonnel = @idpersonnel, datedebut = @datedebut, datefin = @datefin, idmotif = @idmotif ";
-                req += "where datedbut = @datedebut;";
+                string req = "update absence set idpersonnel = @idpersonnel, datedebut = @new_datedebut, datefin = @datefin, idmotif = @idmotif ";
+                req += "WHERE idpersonnel = @idpersonnel AND datedebut = @old_datedebut;";
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
                 parameters.Add("@idpersonnel", absence.IdPersonnel);
-                parameters.Add("@datedebut", absence.DateDebut);
+                parameters.Add("@new_datedebut", absence.DateDebut);
                 parameters.Add("@datefin", absence.DateFin);
                 parameters.Add("@idmotif", absence.IdMotif);
+                parameters.Add("@old_datedebut", absence.DateDebutInitial);
                 try
                 {
                     access.Manager.ReqUpdate(req, parameters);

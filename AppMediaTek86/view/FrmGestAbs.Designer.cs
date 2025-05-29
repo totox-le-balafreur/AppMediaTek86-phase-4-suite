@@ -31,7 +31,7 @@
             this.cbBoxLstMbre = new System.Windows.Forms.ComboBox();
             this.groupBoxAjoutAbs = new System.Windows.Forms.GroupBox();
             this.btnAjConfirmer = new System.Windows.Forms.Button();
-            this.cbBoxAjMotif = new System.Windows.Forms.ComboBox();
+            this.cbBoxLstMotifsAj = new System.Windows.Forms.ComboBox();
             this.lblAjAbsFin = new System.Windows.Forms.Label();
             this.lblAjAbsDebut = new System.Windows.Forms.Label();
             this.dateTimePickerAjFin = new System.Windows.Forms.DateTimePicker();
@@ -39,9 +39,9 @@
             this.groupBoxSupprAbs = new System.Windows.Forms.GroupBox();
             this.btnSupprConfirmer = new System.Windows.Forms.Button();
             this.groupBoxModAbs = new System.Windows.Forms.GroupBox();
+            this.cbBoxLstMotifsMod = new System.Windows.Forms.ComboBox();
             this.lblModAbsDebut = new System.Windows.Forms.Label();
             this.btnModConfirmer = new System.Windows.Forms.Button();
-            this.cbBoxModMotif = new System.Windows.Forms.ComboBox();
             this.lblModAbsFin = new System.Windows.Forms.Label();
             this.dateTimePickerModFin = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerModDebut = new System.Windows.Forms.DateTimePicker();
@@ -68,7 +68,7 @@
             // groupBoxAjoutAbs
             // 
             this.groupBoxAjoutAbs.Controls.Add(this.btnAjConfirmer);
-            this.groupBoxAjoutAbs.Controls.Add(this.cbBoxAjMotif);
+            this.groupBoxAjoutAbs.Controls.Add(this.cbBoxLstMotifsAj);
             this.groupBoxAjoutAbs.Controls.Add(this.lblAjAbsFin);
             this.groupBoxAjoutAbs.Controls.Add(this.lblAjAbsDebut);
             this.groupBoxAjoutAbs.Controls.Add(this.dateTimePickerAjFin);
@@ -89,15 +89,16 @@
             this.btnAjConfirmer.TabIndex = 5;
             this.btnAjConfirmer.Text = "Confirmer";
             this.btnAjConfirmer.UseVisualStyleBackColor = true;
+            this.btnAjConfirmer.Click += new System.EventHandler(this.btnAjConfirmer_Click);
             // 
-            // cbBoxAjMotif
+            // cbBoxLstMotifsAj
             // 
-            this.cbBoxAjMotif.FormattingEnabled = true;
-            this.cbBoxAjMotif.Location = new System.Drawing.Point(41, 116);
-            this.cbBoxAjMotif.Name = "cbBoxAjMotif";
-            this.cbBoxAjMotif.Size = new System.Drawing.Size(125, 21);
-            this.cbBoxAjMotif.TabIndex = 4;
-            this.cbBoxAjMotif.Text = "Motif";
+            this.cbBoxLstMotifsAj.FormattingEnabled = true;
+            this.cbBoxLstMotifsAj.Location = new System.Drawing.Point(41, 116);
+            this.cbBoxLstMotifsAj.Name = "cbBoxLstMotifsAj";
+            this.cbBoxLstMotifsAj.Size = new System.Drawing.Size(125, 21);
+            this.cbBoxLstMotifsAj.TabIndex = 4;
+            this.cbBoxLstMotifsAj.Text = "Motif";
             // 
             // lblAjAbsFin
             // 
@@ -150,12 +151,13 @@
             this.btnSupprConfirmer.TabIndex = 7;
             this.btnSupprConfirmer.Text = "Confirmer";
             this.btnSupprConfirmer.UseVisualStyleBackColor = true;
+            this.btnSupprConfirmer.Click += new System.EventHandler(this.btnSupprConfirmer_Click);
             // 
             // groupBoxModAbs
             // 
+            this.groupBoxModAbs.Controls.Add(this.cbBoxLstMotifsMod);
             this.groupBoxModAbs.Controls.Add(this.lblModAbsDebut);
             this.groupBoxModAbs.Controls.Add(this.btnModConfirmer);
-            this.groupBoxModAbs.Controls.Add(this.cbBoxModMotif);
             this.groupBoxModAbs.Controls.Add(this.lblModAbsFin);
             this.groupBoxModAbs.Controls.Add(this.dateTimePickerModFin);
             this.groupBoxModAbs.Controls.Add(this.dateTimePickerModDebut);
@@ -166,6 +168,15 @@
             this.groupBoxModAbs.TabIndex = 8;
             this.groupBoxModAbs.TabStop = false;
             this.groupBoxModAbs.Text = "modification";
+            // 
+            // cbBoxLstMotifsMod
+            // 
+            this.cbBoxLstMotifsMod.FormattingEnabled = true;
+            this.cbBoxLstMotifsMod.Location = new System.Drawing.Point(35, 116);
+            this.cbBoxLstMotifsMod.Name = "cbBoxLstMotifsMod";
+            this.cbBoxLstMotifsMod.Size = new System.Drawing.Size(125, 21);
+            this.cbBoxLstMotifsMod.TabIndex = 6;
+            this.cbBoxLstMotifsMod.Text = "Motif";
             // 
             // lblModAbsDebut
             // 
@@ -184,15 +195,7 @@
             this.btnModConfirmer.TabIndex = 6;
             this.btnModConfirmer.Text = "Confirmer";
             this.btnModConfirmer.UseVisualStyleBackColor = true;
-            // 
-            // cbBoxModMotif
-            // 
-            this.cbBoxModMotif.FormattingEnabled = true;
-            this.cbBoxModMotif.Location = new System.Drawing.Point(44, 116);
-            this.cbBoxModMotif.Name = "cbBoxModMotif";
-            this.cbBoxModMotif.Size = new System.Drawing.Size(125, 21);
-            this.cbBoxModMotif.TabIndex = 6;
-            this.cbBoxModMotif.Text = "Motif";
+            this.btnModConfirmer.Click += new System.EventHandler(this.btnModConfirmer_Click);
             // 
             // lblModAbsFin
             // 
@@ -225,13 +228,14 @@
             this.btnRetour.TabIndex = 8;
             this.btnRetour.Text = "retour";
             this.btnRetour.UseVisualStyleBackColor = true;
+            this.btnRetour.Click += new System.EventHandler(this.btnRetour_Click);
             // 
             // cbBoxLstAbs
             // 
             this.cbBoxLstAbs.FormattingEnabled = true;
             this.cbBoxLstAbs.Location = new System.Drawing.Point(260, 12);
             this.cbBoxLstAbs.Name = "cbBoxLstAbs";
-            this.cbBoxLstAbs.Size = new System.Drawing.Size(170, 21);
+            this.cbBoxLstAbs.Size = new System.Drawing.Size(200, 21);
             this.cbBoxLstAbs.TabIndex = 9;
             this.cbBoxLstAbs.Text = "Liste des absences";
             // 
@@ -243,6 +247,7 @@
             this.btnAjAbs.TabIndex = 10;
             this.btnAjAbs.Text = "Ajouter";
             this.btnAjAbs.UseVisualStyleBackColor = true;
+            this.btnAjAbs.Click += new System.EventHandler(this.btnAjAbs_Click);
             // 
             // btnSupprAbs
             // 
@@ -252,6 +257,7 @@
             this.btnSupprAbs.TabIndex = 11;
             this.btnSupprAbs.Text = "Supprimer";
             this.btnSupprAbs.UseVisualStyleBackColor = true;
+            this.btnSupprAbs.Click += new System.EventHandler(this.btnSupprAbs_Click);
             // 
             // btnModAbs
             // 
@@ -261,6 +267,7 @@
             this.btnModAbs.TabIndex = 12;
             this.btnModAbs.Text = "Modifier";
             this.btnModAbs.UseVisualStyleBackColor = true;
+            this.btnModAbs.Click += new System.EventHandler(this.btnModAbs_Click);
             // 
             // btnGestAbsEnregistrer
             // 
@@ -272,7 +279,7 @@
             this.btnGestAbsEnregistrer.Text = "Enregistrer";
             this.btnGestAbsEnregistrer.UseVisualStyleBackColor = true;
             // 
-            // GestAbs
+            // FrmGestAbs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -287,7 +294,7 @@
             this.Controls.Add(this.groupBoxSupprAbs);
             this.Controls.Add(this.groupBoxAjoutAbs);
             this.Controls.Add(this.cbBoxLstMbre);
-            this.Name = "GestAbs";
+            this.Name = "FrmGestAbs";
             this.Text = "Gestion des absences";
             this.groupBoxAjoutAbs.ResumeLayout(false);
             this.groupBoxAjoutAbs.PerformLayout();
@@ -312,7 +319,7 @@
         private System.Windows.Forms.Button btnSupprAbs;
         private System.Windows.Forms.Button btnModAbs;
         private System.Windows.Forms.Button btnAjConfirmer;
-        private System.Windows.Forms.ComboBox cbBoxAjMotif;
+        private System.Windows.Forms.ComboBox cbBoxLstMotifsAj;
         private System.Windows.Forms.Label lblAjAbsFin;
         private System.Windows.Forms.Label lblAjAbsDebut;
         private System.Windows.Forms.Label lblModAbsFin;
@@ -320,8 +327,8 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerModDebut;
         private System.Windows.Forms.Button btnSupprConfirmer;
         private System.Windows.Forms.Button btnModConfirmer;
-        private System.Windows.Forms.ComboBox cbBoxModMotif;
         private System.Windows.Forms.Button btnGestAbsEnregistrer;
         private System.Windows.Forms.Label lblModAbsDebut;
+        private System.Windows.Forms.ComboBox cbBoxLstMotifsMod;
     }
 }

@@ -12,6 +12,9 @@ using System.Windows.Forms;
 
 namespace AppMediaTek86.view
 {
+    /// <summary>
+    /// fenetre de modification d'un membre du personnel
+    /// </summary>
     public partial class FrmModMbre : Form
     {
         /// <summary>
